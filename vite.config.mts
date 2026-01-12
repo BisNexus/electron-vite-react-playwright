@@ -7,7 +7,7 @@ import pkg from "./package.json";
 import istanbul from "vite-plugin-istanbul";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
   rmSync("dist-electron", { recursive: true, force: true });
 
   const isServe = command === "serve";
@@ -22,13 +22,17 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       react(),
-      istanbul({
-        include: "src/*",
-        exclude: ["node_modules", "test/"],
-        extension: [".js", ".ts", ".tsx", ".jsx"],
-        requireEnv: false, // Set to true if you only want coverage in specific environments
-        forceBuildInstrument: true, // Important: ensures instrumentation in build mode
-      }),
+      ...(mode === "test" //Intstrumentaion only for test mode
+        ? [
+            istanbul({
+              include: "src/*",
+              exclude: ["node_modules", "test/"],
+              extension: [".js", ".ts", ".tsx", ".jsx"],
+              requireEnv: true, // optional: expects any env var (from '.env.test')
+              forceBuildInstrument: true,
+            }),
+          ]
+        : []),
       electron({
         main: {
           // Shortcut of `build.lib.entry`
