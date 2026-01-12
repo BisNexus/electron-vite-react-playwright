@@ -47,7 +47,7 @@ This template integrates Node.js API to the renderer process by default. If you 
 To get started, remove the option as shown below. This will [modify the Vite configuration and disable this feature](https://github.com/electron-vite/vite-plugin-electron-renderer#config-presets-opinionated).
 
 ```diff
-# vite.config.ts
+# vite.config.mts
 
 export default {
   plugins: [

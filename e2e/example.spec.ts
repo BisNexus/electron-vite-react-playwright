@@ -4,6 +4,7 @@ import path from "node:path";
 import { _electron as electron } from "playwright-core";
 import type { JSHandle } from "playwright";
 import type { BrowserWindow } from "electron";
+import { collectCoverage, teardown } from "./helpers/coverage";
 
 let electronApp: ElectronApplication;
 let page: Page;
@@ -25,8 +26,7 @@ test.beforeAll(async () => {
 });
 
 test.afterAll(async () => {
-  await page.close();
-  await electronApp.close();
+  await teardown(electronApp);
 });
 
 test.describe("[electron-vite-react] e2e tests", async () => {
