@@ -15,6 +15,15 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === "build";
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 
+  const isTest = mode === "test";
+  const istanbulPlugin = istanbul({
+    include: ["src/*", "electron/main/*", "electron/preload/*"],
+    exclude: ["node_modules", "test/"],
+    extension: [".js", ".ts", ".tsx", ".jsx"],
+    requireEnv: true,
+    forceBuildInstrument: true,
+  });
+
   return {
     resolve: {
       alias: {
@@ -23,17 +32,7 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [
       react(),
-      ...(mode === "test" //Intstrumentaion only for test mode
-        ? [
-            istanbul({
-              include: "src/*",
-              exclude: ["node_modules", "test/"],
-              extension: [".js", ".ts", ".tsx", ".jsx"],
-              requireEnv: true, // optional: expects any env var (from '.env.test')
-              forceBuildInstrument: true,
-            }),
-          ]
-        : []),
+      ...(isTest ? [istanbulPlugin] : []), //Intstrumentaion only for test mode
       electron({
         main: {
           // Shortcut of `build.lib.entry`
