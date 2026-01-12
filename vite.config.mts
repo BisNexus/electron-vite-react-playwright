@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => {
 
   const isTest = mode === "test";
   const istanbulPlugin = istanbul({
-    include: ["src/*", "electron/main/*", "electron/preload/*"],
+    include: ["src/*"],
     exclude: ["node_modules", "test/"],
     extension: [".js", ".ts", ".tsx", ".jsx"],
     requireEnv: true,
