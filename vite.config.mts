@@ -17,10 +17,10 @@ export default defineConfig(({ command, mode }) => {
 
   const isTest = mode === "test";
   const istanbulPlugin = istanbul({
-    include: ["src/**"],
+    include: ["src/**", "electron/**"],
     exclude: ["node_modules", "test/"],
     extension: [".js", ".ts", ".tsx", ".jsx"],
-    requireEnv: true,
+    requireEnv: false,
     forceBuildInstrument: true,
   });
 
@@ -48,7 +48,7 @@ export default defineConfig(({ command, mode }) => {
           },
           vite: {
             build: {
-              sourcemap,
+              sourcemap: true,
               minify: isBuild,
               outDir: "dist-electron/main",
               rollupOptions: {

@@ -17,7 +17,7 @@
     "build": "tsc && vite build && electron-builder",
     "preview": "vite preview",
     "pretest": "vite build --mode=test",
-    "test": "playwright test && nyc report --reporter=lcov --reporter=text"
+    "test": "cross-env NODE_V8_COVERAGE=.c8_output1 rimraf .nyc_output coverage && c8 playwright test && nyc report --reporter=lcov --reporter=text"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.6.3",
@@ -44,6 +44,8 @@
     "vite": "^7.3.1",
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6",
-    "vite-plugin-istanbul": "^7.2.1"
+    "vite-plugin-istanbul": "^7.2.1",
+    "c8": "^10.1.3",
+    "cross-env": "^10.1.0"
   }
 }
